@@ -30,9 +30,6 @@ async function main() {
     next();
   });
 
-  // Programs
-  app.use("/programs", programs());
-
   // OpenAI API
   app.use("/gpt", await chatgpt());
 
