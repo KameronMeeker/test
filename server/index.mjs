@@ -11,8 +11,10 @@ dot.config();
 
 async function main() {
   const port = Number(process.env.PORT) || 25577;
-  if (!port || !Number.isInteger(port)) {
-    console.error("bad port");
+  console.log("PORT:", port); // Debugging line
+
+  if (!port || !Number.isInteger(port) || port <= 0 || port > 65535) {
+    console.error("Invalid port:", port);
     process.exit(1);
   }
 
@@ -25,25 +27,19 @@ async function main() {
       limit: "10mb",
     })
   );
+
   app.use((req, res, next) => {
     console.log(req.headers.authorization);
     next();
   });
 
-  // OpenAI API
   app.use("/gpt", await chatgpt());
-
-  // Google API
-  //app.use("/google", await googleApi());
-
-  // Chat
   app.use("/chats", await chat());
-
-  // Images
   app.use("/image", images());
 
-  app.listen(port, () => {
-    console.log(`listening on ${port}`);
+  // ✅ Ensure binding to 0.0.0.0
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`✅ Server listening on port ${port}`);
   });
 }
 
