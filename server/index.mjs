@@ -10,7 +10,7 @@ import { googleApi } from "./routes/googleApi.mjs";
 dot.config();
 
 async function main() {
-  const port = +(process.env.PORT ?? 25577);
+  const port = Number(process.env.PORT) || 25577;
   if (!port || !Number.isInteger(port)) {
     console.error("bad port");
     process.exit(1);
