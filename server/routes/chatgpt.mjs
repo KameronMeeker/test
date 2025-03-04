@@ -1,7 +1,7 @@
 import express from "express";
 import openai from "openai";
 import i264 from "image-to-base64";
-import jimp from "jimp";
+import * as Jimp from "jimp";
 
 export async function chatgpt() {
   const routes = express.Router();
@@ -48,7 +48,7 @@ export async function chatgpt() {
       }
 
       const image_data = await new Promise((resolve, reject) => {
-        jimp.read(req.body, (err, value) => {
+        Jimp.read(req.body, (err, value) => {
           if (err) {
             reject(err);
             return;
